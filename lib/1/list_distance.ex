@@ -1,13 +1,12 @@
 defmodule ListDistance do
 
   def run() do
-    input_file_path = "/Users/meow/Code/advent_of_code/inputs/1/input.txt"
+    input_file_path = File.cwd! <> "/inputs/1/input.txt"
 
     prepared_lists =
       File.stream!(input_file_path, read_ahead: 2)
       |> Enum.map(&prepare_lists/1)
-      |> Enum.reduce({_first_list = [], _second_list = []}, &split_list/2)
-      |> Tuple.to_list()
+      |> Enum.reduce([_first_list = [], _second_list = []], &split_list/2)
       |> Enum.map(&Enum.sort/1)
 
     similarity_score = calculate_similarity_score(prepared_lists)
@@ -30,8 +29,8 @@ defmodule ListDistance do
       |> Enum.map(&String.to_integer/1)
   end
 
-  defp split_list([first_element, second_element], {first_list, second_list}) do
-    {[first_element | first_list], [second_element | second_list]}
+  defp split_list([first_element, second_element], [first_list, second_list]) do
+    [[first_element | first_list], [second_element | second_list]]
   end
 
   defp calculate_distance({first_element, second_element}, total_distance_acc) do
