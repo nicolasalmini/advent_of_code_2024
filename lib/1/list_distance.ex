@@ -1,10 +1,8 @@
 defmodule ListDistance do
 
   def run() do
-    input_file_path = File.cwd! <> "/inputs/1/input.txt"
-
     prepared_lists =
-      File.stream!(input_file_path, read_ahead: 2)
+      InputReader.get_input_file_stream("1/input.txt")
       |> Enum.map(&prepare_lists/1)
       |> Enum.reduce([_first_list = [], _second_list = []], &split_list/2)
       |> Enum.map(&Enum.sort/1)
